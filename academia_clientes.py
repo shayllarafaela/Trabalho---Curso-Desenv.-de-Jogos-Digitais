@@ -1,23 +1,3 @@
-"""
-Cadastro de Academia (Matrícula de Clientes)
-----------------------------------------------
-Aplicação para cadastrar pessoas que estão se matriculando na academia,
-com tkinter + sqlite3 (banco de dados local).
-
-Funcionalidades:
-- Cadastrar cliente (nome, data de nascimento, CPF, telefone, e-mail,
-  endereço, plano contratado, modalidade, data de início, status)
-- Listar todos os clientes cadastrados em uma tabela
-- Buscar/filtrar por nome ou CPF
-- Editar cliente selecionado
-- Excluir cliente selecionado (com confirmação)
-- Validações de campos obrigatórios e formato (data, CPF, e-mail)
-- Cálculo automático da idade e da data de vencimento do plano
-- Dados salvos em arquivo local "academia_clientes.db" (persistem entre execuções)
-
-Basta executar: python3 cadastro_academia.py
-"""
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3

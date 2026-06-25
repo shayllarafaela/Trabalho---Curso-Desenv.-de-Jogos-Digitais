@@ -1,22 +1,3 @@
-"""
-Cadastro de Aluno
-------------------
-Aplicação para cadastrar e gerenciar alunos (de escola, curso, academia, etc.),
-com tkinter + sqlite3 (banco de dados local).
-
-Funcionalidades:
-- Cadastrar aluno (nome, data de nascimento, CPF, telefone, e-mail, endereço, turma/curso, status)
-- Listar todos os alunos em uma tabela
-- Buscar/filtrar por nome ou CPF
-- Editar aluno selecionado
-- Excluir aluno selecionado (com confirmação)
-- Validações de campos obrigatórios e formato (data, CPF, e-mail)
-- Cálculo automático da idade a partir da data de nascimento
-- Dados salvos em arquivo local "alunos.db" (persistem entre execuções)
-
-Basta executar: python3 cadastro_aluno.py
-"""
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3

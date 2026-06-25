@@ -1,25 +1,3 @@
-"""
-Calendário com Agenda
------------------------
-Aplicação de calendário mensal com agenda de compromissos,
-feita com tkinter + sqlite3 (banco de dados local).
-
-Funcionalidades:
-- Visualização de calendário mensal (navegação entre meses/anos)
-- Dias com compromissos são destacados visualmente
-- Clique em um dia para ver/adicionar compromissos daquele dia
-- Cadastrar compromisso (título, horário, descrição, local)
-- Editar e excluir compromissos
-- Lista de compromissos do dia selecionado, ordenados por horário
-- Botão "Hoje" para voltar rapidamente à data atual
-- Dados salvos em arquivo local "agenda.db" (persistem entre execuções)
-
-Não usa nenhuma biblioteca externa (sem tkcalendar) — calendário desenhado
-manualmente com o módulo padrão "calendar" do Python.
-
-Basta executar: python3 calendario_agenda.py
-"""
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 import sqlite3
