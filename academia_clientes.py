@@ -20,7 +20,6 @@ MODALIDADES = ["Musculação", "Crossfit", "Funcional", "Natação", "Lutas",
 
 
 class BancoDados:
-    """Camada simples de acesso ao banco de dados SQLite."""
 
     def __init__(self, caminho=DB_PATH):
         self.conexao = sqlite3.connect(caminho)
@@ -100,7 +99,6 @@ class CadastroAcademia:
         self._montar_interface()
         self._atualizar_tabela()
 
-    # ------------------------------------------------------------------
     def _configurar_estilos(self):
         estilo = ttk.Style()
         try:
@@ -113,7 +111,6 @@ class CadastroAcademia:
         estilo.configure("Treeview", font=("Segoe UI", 10), rowheight=26)
         estilo.configure("Treeview.Heading", font=("Segoe UI", 10, "bold"))
 
-    # ------------------------------------------------------------------
     def _montar_interface(self):
         cabecalho = tk.Frame(self.root, bg="#14213d", height=65)
         cabecalho.pack(fill="x")
@@ -126,7 +123,6 @@ class CadastroAcademia:
         corpo.columnconfigure(1, weight=3)
         corpo.rowconfigure(0, weight=1)
 
-        # ===== Coluna esquerda: formulário =====
         self.form_frame = tk.LabelFrame(corpo, text="Dados da Matrícula", bg="#ffffff",
                                          font=("Segoe UI", 11, "bold"), padx=15, pady=15)
         self.form_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 10))
@@ -205,7 +201,6 @@ class CadastroAcademia:
         self.lbl_vencimento.grid(row=13, column=0, columnspan=2, sticky="w", pady=(2, 8))
         self._atualizar_vencimento()
 
-        # Botões do formulário
         botoes_form = tk.Frame(self.form_frame, bg="#ffffff")
         botoes_form.grid(row=14, column=0, columnspan=2, sticky="ew", pady=(10, 0))
 
@@ -221,7 +216,6 @@ class CadastroAcademia:
                                   font=("Segoe UI", 9, "bold"))
         self.lbl_modo.grid(row=15, column=0, columnspan=2, sticky="w", pady=(6, 0))
 
-        # ===== Coluna direita: busca + tabela =====
         direita = tk.Frame(corpo, bg="#f4f6f8")
         direita.grid(row=0, column=1, sticky="nsew")
         direita.rowconfigure(1, weight=1)
@@ -260,7 +254,6 @@ class CadastroAcademia:
         self.tabela.grid(row=0, column=0, sticky="nsew")
         scroll.grid(row=0, column=1, sticky="ns")
 
-        # Botões de ação
         acoes_frame = tk.Frame(direita, bg="#f4f6f8")
         acoes_frame.grid(row=2, column=0, sticky="ew", pady=(10, 0))
 
@@ -277,9 +270,6 @@ class CadastroAcademia:
                                 font=("Segoe UI", 9), padx=10)
         self.status.pack(fill="x", side="bottom")
 
-    # ------------------------------------------------------------------
-    # VALIDAÇÕES E UTILITÁRIOS
-    # ------------------------------------------------------------------
     @staticmethod
     def _data_valida(texto, permitir_futuro=False):
         try:
@@ -341,9 +331,6 @@ class CadastroAcademia:
         except ValueError:
             return "-"
 
-    # ------------------------------------------------------------------
-    # CRUD
-    # ------------------------------------------------------------------
     def _coletar_dados_formulario(self):
         return {
             "nome": self.entry_nome.get().strip(),

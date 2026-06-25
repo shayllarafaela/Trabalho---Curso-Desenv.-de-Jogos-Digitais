@@ -9,7 +9,6 @@ DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "alunos.db")
 
 
 class BancoDados:
-    """Camada simples de acesso ao banco de dados SQLite."""
 
     def __init__(self, caminho=DB_PATH):
         self.conexao = sqlite3.connect(caminho)
@@ -85,7 +84,6 @@ class CadastroAluno:
         self._montar_interface()
         self._atualizar_tabela()
 
-    # ------------------------------------------------------------------
     def _configurar_estilos(self):
         estilo = ttk.Style()
         try:
@@ -98,7 +96,6 @@ class CadastroAluno:
         estilo.configure("Treeview", font=("Segoe UI", 10), rowheight=26)
         estilo.configure("Treeview.Heading", font=("Segoe UI", 10, "bold"))
 
-    # ------------------------------------------------------------------
     def _montar_interface(self):
         cabecalho = tk.Frame(self.root, bg="#3a0ca3", height=65)
         cabecalho.pack(fill="x")
@@ -111,7 +108,6 @@ class CadastroAluno:
         corpo.columnconfigure(1, weight=3)
         corpo.rowconfigure(0, weight=1)
 
-        # ===== Coluna esquerda: formulário =====
         self.form_frame = tk.LabelFrame(corpo, text="Dados do Aluno", bg="#ffffff",
                                          font=("Segoe UI", 11, "bold"), padx=15, pady=15)
         self.form_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 10))
@@ -160,7 +156,6 @@ class CadastroAluno:
         self.combo_status.pack(fill="x")
         self.combo_status.set("Ativo")
 
-        # Botões do formulário
         botoes_form = tk.Frame(self.form_frame, bg="#ffffff")
         botoes_form.pack(fill="x", pady=(20, 0))
 
@@ -176,7 +171,6 @@ class CadastroAluno:
                                   font=("Segoe UI", 9, "bold"))
         self.lbl_modo.pack(anchor="w", pady=(6, 0))
 
-        # ===== Coluna direita: busca + tabela =====
         direita = tk.Frame(corpo, bg="#f4f6f8")
         direita.grid(row=0, column=1, sticky="nsew")
         direita.rowconfigure(1, weight=1)
@@ -232,9 +226,6 @@ class CadastroAluno:
                                 font=("Segoe UI", 9), padx=10)
         self.status.pack(fill="x", side="bottom")
 
-    # ------------------------------------------------------------------
-    # VALIDAÇÕES E UTILITÁRIOS
-    # ------------------------------------------------------------------
     @staticmethod
     def _data_valida(texto):
         try:
@@ -276,9 +267,6 @@ class CadastroAluno:
         else:
             self.lbl_idade.configure(text="Idade: -")
 
-    # ------------------------------------------------------------------
-    # CRUD
-    # ------------------------------------------------------------------
     def _coletar_dados_formulario(self):
         return {
             "nome": self.entry_nome.get().strip(),

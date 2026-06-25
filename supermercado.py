@@ -11,7 +11,6 @@ class CaixaSupermercado:
         self.root.minsize(850, 600)
         self.root.configure(bg="#fff0f5")
 
-        # Lista de itens da venda atual: cada item é um dict
         self.itens = []
         self.contador_item = 0
 
@@ -19,14 +18,10 @@ class CaixaSupermercado:
         self._montar_interface()
         self._atualizar_totais()
 
-        # Atalhos de teclado
         self.root.bind("<F2>", lambda e: self.entry_codigo.focus_set())
         self.root.bind("<F4>", lambda e: self.finalizar_venda())
         self.root.bind("<F8>", lambda e: self.cancelar_venda())
 
-    # ------------------------------------------------------------------
-    # ESTILO
-    # ------------------------------------------------------------------
     def _configurar_estilos(self):
         estilo = ttk.Style()
         try:
@@ -46,11 +41,7 @@ class CaixaSupermercado:
         estilo.configure("Treeview.Heading", font=("Segoe UI", 10, "bold"))
         estilo.configure("Acao.TButton", font=("Segoe UI", 10, "bold"), padding=8)
 
-    # ------------------------------------------------------------------
-    # INTERFACE
-    # ------------------------------------------------------------------
     def _montar_interface(self):
-        # ----- Cabeçalho -----
         cabecalho = tk.Frame(self.root, bg="#880e4f", height=70)
         cabecalho.pack(fill="x")
         ttk.Label(cabecalho, text="🛒 Caixa do Supermercado", style="Titulo.TLabel").pack(
@@ -59,18 +50,15 @@ class CaixaSupermercado:
         self.lbl_data_hora.pack(side="right", padx=20)
         self._atualizar_relogio()
 
-        # ----- Corpo principal (dividido em 2 colunas) -----
         corpo = tk.Frame(self.root, bg="#fff0f5")
         corpo.pack(fill="both", expand=True, padx=15, pady=10)
         corpo.columnconfigure(0, weight=3)
         corpo.columnconfigure(1, weight=1)
         corpo.rowconfigure(0, weight=1)
 
-        # ===== Coluna esquerda: entrada de produtos + tabela =====
         esquerda = tk.Frame(corpo, bg="#fff0f5")
         esquerda.grid(row=0, column=0, sticky="nsew", padx=(0, 10))
 
-        # --- Formulário de inclusão de item ---
         form = tk.LabelFrame(esquerda, text="Adicionar Produto", bg="#ffffff",
                               font=("Segoe UI", 10, "bold"), padx=10, pady=10)
         form.pack(fill="x", pady=(0, 10))
@@ -109,11 +97,9 @@ class CaixaSupermercado:
                                        command=self._limpar_campos_produto, cursor="hand2")
         btn_limpar_campos.grid(row=1, column=5, sticky="ew")
 
-        # Enter em qualquer campo do formulário adiciona o item
         for campo in (self.entry_codigo, self.entry_nome, self.entry_preco, self.entry_qtd):
             campo.bind("<Return>", lambda e: self.adicionar_item())
 
-        # --- Tabela de itens (carrinho) ---
         tabela_frame = tk.LabelFrame(esquerda, text="Itens da Compra", bg="#ffffff",
                                       font=("Segoe UI", 10, "bold"), padx=5, pady=5)
         tabela_frame.pack(fill="both", expand=True)
@@ -138,7 +124,6 @@ class CaixaSupermercado:
         self.tabela.pack(side="left", fill="both", expand=True)
         scroll.pack(side="right", fill="y")
 
-        # Duplo clique remove o item selecionado
         self.tabela.bind("<Double-1>", lambda e: self.remover_item_selecionado())
 
         btn_remover = tk.Button(esquerda, text="🗑️ Remover item selecionado (duplo clique na tabela)",
@@ -147,7 +132,6 @@ class CaixaSupermercado:
                                  cursor="hand2")
         btn_remover.pack(fill="x", pady=(8, 0))
 
-        # ===== Coluna direita: totais, desconto e pagamento =====
         direita = tk.Frame(corpo, bg="#fff0f5")
         direita.grid(row=0, column=1, sticky="nsew")
 
@@ -167,7 +151,6 @@ class CaixaSupermercado:
                                       font=("Segoe UI", 14, "bold"))
         self.lbl_subtotal.pack(anchor="w", pady=(0, 10))
 
-        # --- Desconto ---
         desconto_frame = tk.LabelFrame(direita, text="Desconto", bg="#ffffff",
                                         font=("Segoe UI", 10, "bold"), padx=12, pady=12)
         desconto_frame.pack(fill="x", pady=10)
@@ -185,14 +168,12 @@ class CaixaSupermercado:
         self.entry_desconto.pack(fill="x", pady=(6, 0))
         self.entry_desconto.bind("<KeyRelease>", lambda e: self._atualizar_totais())
 
-        # --- Total ---
         total_frame = tk.Frame(direita, bg="#fff0f5")
         total_frame.pack(fill="x", pady=10)
         ttk.Label(total_frame, text="TOTAL A PAGAR", style="Campo.TLabel").pack(anchor="w")
         self.lbl_total = ttk.Label(total_frame, text="R$ 0,00", style="Total.TLabel")
         self.lbl_total.pack(anchor="w")
 
-        # --- Pagamento ---
         pagamento_frame = tk.LabelFrame(direita, text="Pagamento", bg="#ffffff",
                                          font=("Segoe UI", 10, "bold"), padx=12, pady=12)
         pagamento_frame.pack(fill="x")
@@ -217,7 +198,6 @@ class CaixaSupermercado:
                                    font=("Segoe UI", 13, "bold"), fg="#c2185b")
         self.lbl_troco.pack(anchor="w")
 
-        # --- Botões de ação ---
         acoes_frame = tk.Frame(direita, bg="#fff0f5")
         acoes_frame.pack(fill="x", pady=15)
 
@@ -229,24 +209,17 @@ class CaixaSupermercado:
                    font=("Segoe UI", 10, "bold"), relief="flat",
                    command=self.cancelar_venda, cursor="hand2").pack(fill="x")
 
-        # Status bar
         self.status = tk.Label(self.root, text="Pronto. F2: focar código | F4: finalizar | F8: cancelar",
                                 bg="#fce4ec", anchor="w", font=("Segoe UI", 9), padx=10)
         self.status.pack(fill="x", side="bottom")
 
         self.entry_codigo.focus_set()
 
-    # ------------------------------------------------------------------
-    # RELÓGIO
-    # ------------------------------------------------------------------
     def _atualizar_relogio(self):
         agora = datetime.now().strftime("%d/%m/%Y  %H:%M:%S")
         self.lbl_data_hora.configure(text=agora)
         self.root.after(1000, self._atualizar_relogio)
 
-    # ------------------------------------------------------------------
-    # AÇÕES DE PRODUTO
-    # ------------------------------------------------------------------
     def adicionar_item(self):
         codigo = self.entry_codigo.get().strip()
         nome = self.entry_nome.get().strip()
@@ -312,9 +285,6 @@ class CaixaSupermercado:
         self.entry_qtd.delete(0, "end")
         self.entry_qtd.insert(0, "1")
 
-    # ------------------------------------------------------------------
-    # TOTAIS / DESCONTO / TROCO
-    # ------------------------------------------------------------------
     def _calcular_subtotal(self):
         return sum(i["subtotal"] for i in self.itens)
 
@@ -370,9 +340,6 @@ class CaixaSupermercado:
         else:
             self.lbl_troco.configure(text=self._fmt_moeda(troco), fg="#c2185b")
 
-    # ------------------------------------------------------------------
-    # FINALIZAR / CANCELAR
-    # ------------------------------------------------------------------
     def finalizar_venda(self):
         if not self.itens:
             messagebox.showwarning("Venda vazia", "Adicione ao menos um produto antes de finalizar a venda.")
@@ -424,9 +391,6 @@ class CaixaSupermercado:
         self.entry_codigo.focus_set()
         self.status.configure(text="Pronto para uma nova venda.")
 
-    # ------------------------------------------------------------------
-    # UTILITÁRIOS
-    # ------------------------------------------------------------------
     @staticmethod
     def _fmt_moeda(valor):
         return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")

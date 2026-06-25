@@ -13,7 +13,6 @@ DIAS_SEMANA_PT = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"]
 
 
 class BancoDados:
-    """Camada simples de acesso ao banco de dados SQLite."""
 
     def __init__(self, caminho=DB_PATH):
         self.conexao = sqlite3.connect(caminho)
@@ -94,7 +93,6 @@ class CalendarioAgenda:
         self._desenhar_calendario()
         self._carregar_compromissos_do_dia()
 
-    # ------------------------------------------------------------------
     def _configurar_estilos(self):
         estilo = ttk.Style()
         try:
@@ -108,7 +106,6 @@ class CalendarioAgenda:
         estilo.configure("Treeview", font=("Segoe UI", 10), rowheight=28)
         estilo.configure("Treeview.Heading", font=("Segoe UI", 10, "bold"))
 
-    # ------------------------------------------------------------------
     def _montar_interface(self):
         cabecalho = tk.Frame(self.root, bg="#4c072f", height=65)
         cabecalho.pack(fill="x")
@@ -121,7 +118,6 @@ class CalendarioAgenda:
         corpo.columnconfigure(1, weight=2)
         corpo.rowconfigure(0, weight=1)
 
-        # ===== Coluna esquerda: calendário =====
         esquerda = tk.Frame(corpo, bg="#f4f6f8")
         esquerda.grid(row=0, column=0, sticky="nsew", padx=(0, 10))
 
@@ -153,7 +149,6 @@ class CalendarioAgenda:
         tk.Label(legenda_frame, text="Dia com compromisso(s) agendado(s)", bg="#f4f6f8",
                  font=("Segoe UI", 9)).pack(side="left", padx=(2, 0))
 
-        # ===== Coluna direita: agenda do dia selecionado =====
         direita = tk.Frame(corpo, bg="#f4f6f8")
         direita.grid(row=0, column=1, sticky="nsew")
         direita.rowconfigure(2, weight=1)
@@ -163,7 +158,6 @@ class CalendarioAgenda:
                                              font=("Segoe UI", 13, "bold"), fg="#4c0735")
         self.lbl_dia_selecionado.grid(row=0, column=0, sticky="w", pady=(0, 8))
 
-        # --- Formulário de compromisso ---
         form_frame = tk.LabelFrame(direita, text="Novo Compromisso", bg="#ffffff",
                                     font=("Segoe UI", 10, "bold"), padx=12, pady=12)
         form_frame.grid(row=1, column=0, sticky="ew", pady=(0, 10))
@@ -203,7 +197,6 @@ class CalendarioAgenda:
                                               fg="white", font=("Segoe UI", 9), relief="flat",
                                               command=self._cancelar_edicao, cursor="hand2")
 
-        # --- Lista de compromissos do dia ---
         lista_frame = tk.LabelFrame(direita, text="Compromissos do Dia", bg="#ffffff",
                                      font=("Segoe UI", 10, "bold"), padx=5, pady=5)
         lista_frame.grid(row=2, column=0, sticky="nsew")
@@ -246,9 +239,6 @@ class CalendarioAgenda:
                                 font=("Segoe UI", 9), padx=10)
         self.status.pack(fill="x", side="bottom")
 
-    # ------------------------------------------------------------------
-    # CALENDÁRIO (DESENHO DA GRADE)
-    # ------------------------------------------------------------------
     def _desenhar_calendario(self):
         for widget in self.grade_frame.winfo_children():
             widget.destroy()
@@ -265,7 +255,7 @@ class CalendarioAgenda:
         dias_com_compromisso = self.banco.listar_dias_com_compromisso(self.ano_exibido, self.mes_exibido)
         hoje = date.today()
 
-        calendario_mes = calendar.Calendar(firstweekday=0)  # semana começa na segunda
+        calendario_mes = calendar.Calendar(firstweekday=0) 
         semanas = calendario_mes.monthdayscalendar(self.ano_exibido, self.mes_exibido)
 
         for linha, semana in enumerate(semanas, start=1):
@@ -331,9 +321,6 @@ class CalendarioAgenda:
         self._desenhar_calendario()
         self._carregar_compromissos_do_dia()
 
-    # ------------------------------------------------------------------
-    # AGENDA (COMPROMISSOS DO DIA)
-    # ------------------------------------------------------------------
     @staticmethod
     def _horario_valido(texto):
         try:
